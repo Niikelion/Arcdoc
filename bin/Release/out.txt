@@ -1,0 +1,11 @@
+<!--member_tree-->
+<container type = "namespace">
+	<list>
+		<item name = "TEST" type = "namespace">
+			<list>
+				<item name = "A" type = "structure">
+				<item/>
+			<list/>
+		<item/>
+	<list/>
+<container/>

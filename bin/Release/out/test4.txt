@@ -1,0 +1,31 @@
+<!--member_tree-->
+<container type = "namespace">
+	<list>
+		<item name = "ARCDOC" type = "namespace">
+			<list>
+				<item name = "VariableToken" type = "structure">
+				<item/>
+				<item name = "FunctionToken" type = "structure">
+				<item/>
+				<item name = "ClassToken" type = "structure">
+				<item/>
+				<item name = "Member" type = "structure">
+				<item/>
+				<item name = "MemberBase" type = "structure">
+				<item/>
+				<item name = "Alias" type = "structure">
+				<item/>
+				<item name = "TypeInfo" type = "structure">
+				<item/>
+				<item name = "Variable" type = "structure">
+				<item/>
+				<item name = "Function" type = "structure">
+				<item/>
+				<item name = "Structure" type = "structure">
+				<item/>
+				<item name = "Namespace" type = "structure">
+				<item/>
+			<list/>
+		<item/>
+	<list/>
+<container/>

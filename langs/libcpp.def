@@ -1,0 +1,3 @@
+EXPORTS
+    moduleDeleter @1
+    moduleFactory @2

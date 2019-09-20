@@ -1,0 +1,19 @@
+#ifndef INTER_H
+#define INTER_H
+
+#include <nullscript/nullscript.h>
+#include <nlib/slib/slib.h>
+
+#include <memory>
+#include <string>
+
+class Parser
+{
+private:
+    Nlib::SharedLib sl;
+    std::unique_ptr<NULLSCR::Tokenizer> tokenizer;
+public:
+    bool load(const std::string& path);
+};
+
+#endif // INTER_H

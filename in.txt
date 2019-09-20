@@ -1,0 +1,2 @@
+parse test/test2.h
+list classes recursive

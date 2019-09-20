@@ -1,0 +1,250 @@
+# depslib dependency file v1.0
+1568919940 source:g:\c++\projects\arcdoc\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<string>
+	<map>
+	<exception>
+	<algorithm>
+	<functional>
+	<inter.h>
+
+1530963082 g:\c++\projects\nullscript\include\nullscript.h
+	<iostream>
+	<ntokens.h>
+
+1530964604 g:\c++\projects\nullscript\include\ntokens.h
+	<regex>
+	<string>
+	<map>
+	<vector>
+	<memory>
+	<functional>
+	<algorithm>
+	<cstdlib>
+	<iterator>
+
+1562880450 source:k:\c++\projects\arcdoc\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<string>
+	<map>
+	<exception>
+	<algorithm>
+	<functional>
+	<inter.h>
+
+1562880412 k:\c++\projects\arcdoc\include\inter.h
+	<nullscript/nullscript.h>
+	<tokens.h>
+	<nlib/slib/slib.h>
+	<memory>
+	<string>
+
+1562791284 k:\c++\projects\nullscript project\v2\nullscript\include\nullscript\nullscript.h
+	<string>
+	<vector>
+	<memory>
+	<exception>
+	<typeindex>
+
+1562185614 k:\c++\projects\nlib\nlib\slib\slib.h
+	<string>
+
+1562888742 source:k:\c++\projects\arcdoc\src\cpplang.cpp
+	<nullscript/nullscript.h>
+	<nullscript/rules.h>
+	<tokens.h>
+
+1562880960 source:k:\c++\projects\arcdoc\src\inter.cpp
+	"inter.h"
+	<fstream>
+	<iostream>
+
+1561929814 k:\c++\projects\arcdoc\include\tokens.h
+	<nullscript/tokens.h>
+	<string>
+	<typeindex>
+	<memory>
+	<map>
+
+1562792146 k:\c++\projects\nullscript project\v2\nullscript\include\nullscript\tokens.h
+	<nullscript/nullscript.h>
+	<iostream>
+
+1562756970 k:\c++\projects\nullscript project\v2\nullscript\include\nullscript\rules.h
+	<nullscript/tokens.h>
+	<regex>
+	<functional>
+	<algorithm>
+
+1562880450 source:j:\c++\projects\arcdoc\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<string>
+	<map>
+	<exception>
+	<algorithm>
+	<functional>
+	<inter.h>
+
+1564791060 j:\c++\projects\arcdoc\include\inter.h
+	<nullscript/nullscript.h>
+	<tokens.h>
+	<nlib/slib/slib.h>
+	<memory>
+	<string>
+
+1562791284 j:\c++\projects\nullscript project\v2\nullscript\include\nullscript\nullscript.h
+	<string>
+	<vector>
+	<memory>
+	<exception>
+	<typeindex>
+
+1563140172 j:\c++\projects\arcdoc\include\tokens.h
+	<nullscript/tokens.h>
+	<string>
+	<typeindex>
+	<memory>
+	<map>
+
+1562792146 j:\c++\projects\nullscript project\v2\nullscript\include\nullscript\tokens.h
+	<nullscript/nullscript.h>
+	<iostream>
+
+1562185614 j:\c++\projects\nlib\nlib\slib\slib.h
+	<string>
+
+1564791070 source:j:\c++\projects\arcdoc\src\inter.cpp
+	"inter.h"
+	<fstream>
+	<iostream>
+
+1567941260 source:f:\c++\projects\arcdoc\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<string>
+	<map>
+	<exception>
+	<algorithm>
+	<functional>
+	<inter.h>
+
+1567900562 f:\c++\projects\arcdoc\include\inter.h
+	<nullscript/nullscript.h>
+	<tokens.h>
+	<nlib/slib/slib.h>
+	<memory>
+	<string>
+
+1565111392 f:\c++\projects\nullscript project\v2\nullscript\include\nullscript\nullscript.h
+	<string>
+	<vector>
+	<memory>
+	<exception>
+	<typeindex>
+
+1567893972 f:\c++\projects\arcdoc\include\tokens.h
+	<nullscript/tokens.h>
+	<string>
+	<typeindex>
+	<memory>
+	<map>
+
+1565117986 f:\c++\projects\nullscript project\v2\nullscript\include\nullscript\tokens.h
+	<nullscript/nullscript.h>
+	<iostream>
+
+1562185614 f:\c++\projects\nlib\nlib\slib\slib.h
+	<string>
+
+1567941632 source:f:\c++\projects\arcdoc\src\inter.cpp
+	"inter.h"
+	<fstream>
+	<iostream>
+
+1567942180 source:f:\c++\projects\arcdoc\src\cpplang.cpp
+	<nullscript/nullscript.h>
+	<nullscript/rules.h>
+	<tokens.h>
+
+1567898368 f:\c++\projects\nullscript project\v2\nullscript\include\nullscript\rules.h
+	<nullscript/tokens.h>
+	<regex>
+	<functional>
+	<algorithm>
+	<list>
+	<set>
+
+1568914046 g:\c++\projects\arcdoc\include\inter.h
+	<nullscript/nullscript.h>
+	<tokens.h>
+	<nlib/slib/slib.h>
+	<module.h>
+	<generator.h>
+	<memory>
+	<string>
+
+1565111392 g:\c++\projects\nullscript project\v2\nullscript\include\nullscript\nullscript.h
+	<string>
+	<vector>
+	<memory>
+	<exception>
+	<typeindex>
+
+1568919468 g:\c++\projects\arcdoc\include\tokens.h
+	<nullscript/tokens.h>
+	<string>
+	<typeindex>
+	<memory>
+	<map>
+
+1565117986 g:\c++\projects\nullscript project\v2\nullscript\include\nullscript\tokens.h
+	<nullscript/nullscript.h>
+	<iostream>
+
+1562185614 g:\c++\projects\nlib\nlib\slib\slib.h
+	<string>
+
+1568920274 source:g:\c++\projects\arcdoc\src\inter.cpp
+	"inter.h"
+	<fstream>
+	<iostream>
+
+1568412582 source:g:\c++\projects\arcdoc\src\cpplang.cpp
+	<nullscript/nullscript.h>
+	<nullscript/rules.h>
+	<tokens.h>
+
+1568236838 g:\c++\projects\nullscript project\v2\nullscript\include\nullscript\rules.h
+	<nullscript/tokens.h>
+	<regex>
+	<functional>
+	<algorithm>
+	<list>
+	<set>
+
+1568919974 source:g:\c++\projects\arcdoc\src\module.cpp
+	"module.h"
+
+1568918714 g:\c++\projects\arcdoc\include\module.h
+	<nullscript/nullscript.h>
+	<tokens.h>
+	<memory>
+	<vector>
+	<string>
+	<set>
+	<parselib/XML/xml.hpp>
+
+1568848428 g:\c++\projects\arcdoc\include\generator.h
+	<module.h>
+	<parselib/JSON/json.h>
+
+1568564722 source:g:\c++\projects\arcdoc\src\generator.cpp
+	"generator.h"
+

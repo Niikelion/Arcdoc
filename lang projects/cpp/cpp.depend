@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1568918686 source:g:\c++\projects\arcdoc\lang projects\cpp\main.cpp
+	<nullscript/nullscript.h>
+	<nullscript/rules.h>
+	<module.h>
+
+1568918714 g:\c++\projects\arcdoc\include\module.h
+	<nullscript/nullscript.h>
+	<tokens.h>
+	<memory>
+	<vector>
+	<string>
+	<set>
+	<parselib/XML/xml.hpp>
+
+1568918754 g:\c++\projects\arcdoc\include\tokens.h
+	<nullscript/tokens.h>
+	<string>
+	<typeindex>
+	<memory>
+	<map>
+

@@ -1,0 +1,3 @@
+EXPORTS
+    generatorDeleter @1
+    generatorFactory @2
