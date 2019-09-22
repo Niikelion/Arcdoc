@@ -4,7 +4,12 @@ std::set<std::string> Core::getActions() const
 {
     return std::set<std::string>({
         "install",
-        "activate"
+        "activate",
+        "list",
+        "help",
+        "show",
+        "@ps",
+        "@og"
     });
 }
 bool Core::performAction(const std::string& action,const std::vector<std::string>& options)

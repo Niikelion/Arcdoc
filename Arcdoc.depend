@@ -303,8 +303,12 @@
 	<action.h>
 	<inter.h>
 
-1569155166 d:\projects\arcdoc\include\action.h
+1569178420 d:\projects\arcdoc\include\action.h
 	<set>
 	<vector>
 	<string>
+	<iostream>
+
+1569157545 source:d:\projects\arcdoc\src\core.cpp
+	"core.h"
 

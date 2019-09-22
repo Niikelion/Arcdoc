@@ -99,6 +99,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/action.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/core.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
