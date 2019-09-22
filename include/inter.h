@@ -25,10 +25,10 @@ public:
 
     bool load(const std::string& path);
 
-    void parseString(const std::string& source);
-    void parseFile(const std::string& filename);
+    bool parseString(const std::string& source);
+    bool parseFile(const std::string& filename);
 
-    void parseProject(); ///TODO: store files to load, all configuration etc.
+    bool parseProject(const std::string& filename); ///TODO: store files to load, all configuration etc.
 
     template<typename T> std::vector<T*> get() const
     {
@@ -66,6 +66,7 @@ public:
     std::map<std::string,std::vector<std::string> >flags;
     std::vector<std::string> values;
     ConsoleHandler(unsigned argc,const char* argv[],const std::map<std::string,int>& fd);
+    ConsoleHandler(const std::vector<std::string>& args,const std::map<std::string,int>& fd);
 
     bool hasFlag(const std::string& flag) const;
     std::vector<std::string> getFlag(std::string const& flag) const;

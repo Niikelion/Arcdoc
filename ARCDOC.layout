@@ -2,19 +2,24 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="src\inter.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+	<File name="src\inter.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1043" topLine="15" />
+			<Cursor1 position="1707" topLine="19" />
 		</Cursor>
 		<Folding>
 			<Collapse line="9" />
 			<Collapse line="16" />
 			<Collapse line="23" />
+			<Collapse line="45" />
+			<Collapse line="125" />
+			<Collapse line="135" />
+			<Collapse line="271" />
+			<Collapse line="277" />
 		</Folding>
 	</File>
-	<File name="include\action.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\action.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="687" topLine="11" />
+			<Cursor1 position="1188" topLine="30" />
 		</Cursor>
 	</File>
 	<File name="src\module.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -22,15 +27,18 @@
 			<Cursor1 position="373" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\core.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\core.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="481" topLine="5" />
+			<Cursor1 position="1358" topLine="30" />
 		</Cursor>
 	</File>
-	<File name="src\action.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\action.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1073" topLine="36" />
+			<Cursor1 position="1469" topLine="48" />
 		</Cursor>
+		<Folding>
+			<Collapse line="46" />
+		</Folding>
 	</File>
 	<File name="include\tokens.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
 		<Cursor>
@@ -64,34 +72,31 @@
 			<Cursor1 position="296" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="src\core.cpp" open="1" top="1" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\core.cpp" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="3793" topLine="124" />
 		</Cursor>
+		<Folding>
+			<Collapse line="98" />
+			<Collapse line="125" />
+			<Collapse line="189" />
+			<Collapse line="213" />
+		</Folding>
 	</File>
 	<File name="include\inter.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="36" topLine="0" />
+			<Cursor1 position="540" topLine="15" />
 		</Cursor>
 	</File>
-	<File name="include\module.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+	<File name="include\module.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="178" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2904" topLine="52" />
+			<Cursor1 position="1942" topLine="73" />
 		</Cursor>
-		<Folding>
-			<Collapse line="14" />
-			<Collapse line="24" />
-			<Collapse line="37" />
-			<Collapse line="42" />
-			<Collapse line="57" />
-			<Collapse line="75" />
-			<Collapse line="80" />
-		</Folding>
 	</File>
 	<File name="test\test1.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>

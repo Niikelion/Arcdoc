@@ -1,25 +1,10 @@
 #include "core.h"
 
-std::set<std::string> Core::getActions() const
-{
-    return std::set<std::string>({
-        "install",
-        "activate",
-        "list",
-        "help",
-        "show",
-        "@ps",
-        "@og"
-    });
-}
-bool Core::performAction(const std::string& action,const std::vector<std::string>& options)
-{
-    return false;
-}
+using namespace std;
 
-bool Core::loadLang(const std::string& name,const std::string& path)
+bool Core::loadLang(const string& name,const string& path)
 {
-    std::unique_ptr<Parser> p(new Parser());
+    unique_ptr<Parser> p(new Parser());
     if (p -> load("langs/"+path))
     {
         parsers.emplace(name,std::move(p));
@@ -28,7 +13,7 @@ bool Core::loadLang(const std::string& name,const std::string& path)
     return false;
 }
 
-bool Core::activateParser(std::string const& parser)
+bool Core::activateParser(string const& parser)
 {
     auto it = parsers.find(parser);
     if (it == parsers.end())
@@ -39,7 +24,7 @@ bool Core::activateParser(std::string const& parser)
     return true;
 }
 
-Parser* Core::getParser(std::string const& name) const
+Parser* Core::getParser(string const& name) const
 {
     auto it = parsers.find(name);
     if (it == parsers.end())
@@ -52,9 +37,9 @@ Parser* Core::getActiveParser() const
     return activatedParser;
 }
 
-bool Core::loadGenerator(const std::string& name,const std::string& path)
+bool Core::loadGenerator(const string& name,const string& path)
 {
-    std::unique_ptr<Generator> g(new Generator());
+    unique_ptr<Generator> g(new Generator());
     if (g -> load("formats/"+path))
     {
         generators.emplace(name,std::move(g));
@@ -63,7 +48,7 @@ bool Core::loadGenerator(const std::string& name,const std::string& path)
     return false;
 }
 
-bool Core::activateGenerator(std::string const& generator)
+bool Core::activateGenerator(string const& generator)
 {
     auto it = generators.find(generator);
     if (it == generators.end())
@@ -74,7 +59,7 @@ bool Core::activateGenerator(std::string const& generator)
     return true;
 }
 
-Generator* Core::getGenerator(std::string const& name) const
+Generator* Core::getGenerator(string const& name) const
 {
     auto it = generators.find(name);
     if (it == generators.end())
@@ -87,20 +72,165 @@ Generator* Core::getActiveGenerator() const
     return activatedGenerator;
 }
 
-std::vector<std::string> Core::parsersList() const
+vector<string> Core::parsersList() const
 {
-    std::vector<std::string> ret;
+    vector<string> ret;
     ret.reserve(parsers.size());
     for (const auto& i:parsers)
         ret.emplace_back(i.first);
-    return std::move(ret);
+    return move(ret);
 }
 
-std::vector<std::string> Core::generatorsList() const
+vector<string> Core::generatorsList() const
 {
-    std::vector<std::string> ret;
+    vector<string> ret;
     ret.reserve(generators.size());
     for (const auto& i:generators)
         ret.emplace_back(i.first);
-    return std::move(ret);
+    return move(ret);
+}
+
+bool Core::installCmd(const vector<string>& args)
+{
+    return false;
+}
+
+bool Core::showCmd(const vector<string>& args)
+{
+    if (args.size() == 1)
+    {
+        vector<string> tmp;
+        if (args[0] == "languages")
+        {
+            tmp = parsersList();
+            for (const auto& i:tmp)
+                cout << i << "\n";
+        }
+        else if (args[0] == "formats")
+        {
+            tmp = generatorsList();
+            for (const auto& i:tmp)
+                cout << i << "\n";
+        }
+        return true;
+    }
+    if (args.size() == 0)
+    {
+        cout << "available arguments: languages, formats\n";
+        return true;
+    }
+    return false;
+}
+
+bool Core::activateCmd(const vector<string>& args)
+{
+    ConsoleHandler ch(args,
+    {
+        make_pair("l",0),
+        make_pair("of",0)
+    });
+    bool l = ch.hasFlag("l");
+    bool of = ch.hasFlag("of");
+    if ((l && of) || ch.values.size() != 1)
+    {
+        //err
+        return false;
+    }
+    else if (l)
+    {
+        return activateParser(ch.values.front());
+    }
+    else if (of)
+    {
+        return activateGenerator(ch.values.front());
+    }
+    return false;
+}
+
+bool Core::listCmd(const vector<string>& args)
+{
+    ConsoleHandler ch(args,
+    {
+        make_pair("r",0)
+    });
+    //bool recursive = ch.hasFlag("r");
+    if (ch.values.size() != 1)
+    {
+        if (ch.values.size() == 0)
+        {
+            cout << "available arguments: updated\n";
+            return true;
+        }
+        //err
+        return false;
+    }
+    if (ch.values.front() == "updated")
+    {
+        if (getActiveParser() != nullptr)
+        {
+            for (const auto& i:getActiveParser()->getModule()->newMembers)
+            {
+                cout << i->filename << "(" << i->pos << "): " << i->name << "\n";
+            }
+        }
+        else
+        {
+            //error
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Core::parseCmd(const vector<string>& args)
+{
+    ConsoleHandler ch(args,
+    {
+        make_pair("p",0)
+    });
+    bool isProject = ch.hasFlag("p");
+
+    if (ch.values.size() == 1)
+    {
+        if (getActiveParser() != nullptr)
+        {
+            if (isProject)
+                return getActiveParser()->parseProject(ch.values.front());
+            else
+                return getActiveParser()->parseFile(ch.values.front());
+        }
+        //error
+        return false;
+    }
+    //err
+    return false;
+}
+
+bool Core::generateCmd(const vector<string>& args)
+{
+    ConsoleHandler ch(args,
+    {
+        make_pair("og",1),
+        make_pair("n",1)
+    });
+    if (ch.values.size() == 1)
+    {
+        if (ch.hasFlag("og"))
+        {
+            //more module forkery
+        }
+
+        string name="project";
+        if (ch.hasFlag("n"))
+            name = ch.getFlag("n").front();
+
+        getActiveGenerator()->generateTo(ch.values.front(),name);
+        return true;
+    }
+    //error
+    return false;
 }

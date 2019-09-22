@@ -2,6 +2,11 @@
 
 namespace ARCDOC
 {
+    std::map<std::string,Action> ActionProvider::getActions() const
+    {
+        return actions;
+    }
+
     void ActionHandler::getActionPack(ActionHandler::ActionPack& p)
     {
         std::string l;
@@ -34,7 +39,7 @@ namespace ARCDOC
             }
             else
             {
-                p.args.emplace_back(la,i-la);
+                p.args.emplace_back(l.substr(la,i-la));
             }
         }
     }
@@ -43,15 +48,29 @@ namespace ARCDOC
         provider = p;
         if (p != nullptr)
             actions = p->getActions();
+        else
+            actions.clear();
     }
 
     void ActionHandler::loop()
     {
         ActionPack ap;
+        if (pName.size() != 0)
+        {
+            (*output) << pName << " ";
+        }
         getActionPack(ap);
         while (ap.cmd != "exit")
         {
-            provider -> performAction(ap.cmd,ap.args);
+            auto it = actions.find(ap.cmd);
+            if (it != actions.end())
+            {
+                it -> second(ap.args);
+            }
+            if (pName.size() != 0)
+            {
+                (*output) << pName << " ";
+            }
             getActionPack(ap);
         }
     }

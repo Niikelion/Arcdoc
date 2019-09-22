@@ -13,10 +13,6 @@ private:
     Generator* activatedGenerator;
     std::map<std::string,std::unique_ptr<Generator>> generators;
 public:
-
-    virtual std::set<std::string> getActions()const override;
-    virtual bool performAction(const std::string& action,const std::vector<std::string>& options) override;
-
     std::vector<std::string> parsersList() const;
     std::vector<std::string> generatorsList() const;
 
@@ -32,7 +28,31 @@ public:
     bool activateParser(std::string const& parser);
     bool activateGenerator(std::string const& generator);
 
-    Core(): activatedParser(nullptr),activatedGenerator(nullptr) {};
+    Core(): activatedParser(nullptr),activatedGenerator(nullptr)
+    {
+        registerAction("install",installCmd);
+        registerAction("show",showCmd);
+        registerAction("activate",activateCmd);
+        registerAction("list",listCmd);
+        registerAction("parse",parseCmd);
+        registerAction("generate",generateCmd);
+        /*return std::set<std::string>({
+        "install",
+        "activate",
+        "list",
+        "help",
+        "show",
+        "@ps",
+        "@og"
+        });*/
+    }
+
+    bool installCmd(const std::vector<std::string>& args);
+    bool showCmd(const std::vector<std::string>& args);
+    bool activateCmd(const std::vector<std::string>& args);
+    bool listCmd(const std::vector<std::string>& args);
+    bool parseCmd(const std::vector<std::string>& args);
+    bool generateCmd(const std::vector<std::string>& args);
 };
 
 #endif // CORE_H

@@ -42,16 +42,25 @@ bool Parser::load(const std::string& path)
     return false;
 }
 
-void Parser::parseString(const std::string& source)
+bool Parser::parseString(const std::string& source)
 {
     if (module != nullptr)
     {
-        module->parseString(source);
-        //std::cout << module->getItem("member_tree")->toString() << std::endl;
+        try
+        {
+            module->parseString(source);
+            //std::cout << module->getItem("member_tree")->toString() << std::endl;
+        }
+        catch(std::exception e)
+        {
+            return false;
+        }
+        return true;
     }
+    return false;
 }
 
-void Parser::parseFile(const std::string& filename)
+bool Parser::parseFile(const std::string& filename)
 {
     std::ifstream t(filename);
     if (t.is_open() && module != nullptr)
@@ -59,8 +68,14 @@ void Parser::parseFile(const std::string& filename)
         std::string str((   std::istreambuf_iterator<char>(t)),
                             std::istreambuf_iterator<char>());
         module->setCurrentFile(filename);
-        parseString(str);
+        return parseString(str);
     }
+    return false;
+}
+
+bool Parser::parseProject(const std::string& filename)
+{
+    return false;
 }
 
 Parser::~Parser()
@@ -170,6 +185,74 @@ ConsoleHandler::ConsoleHandler(unsigned argc,const char* argv[],const std::map<s
                             for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
                             {
                                 fg -> second.emplace_back(argv[i+j]);
+                            }
+                            i += it -> second;
+                        }
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            values.emplace_back(tmp);
+        }
+    }
+}
+
+ConsoleHandler::ConsoleHandler(const std::vector<std::string>& args,const std::map<std::string,int>& fd)
+{
+    flagsD = fd;
+    std::string tmp;
+
+    for (unsigned i = 0; i < args.size(); ++i)
+    {
+        tmp = args[i];
+        if (args[i][0] == '-')
+        {
+            tmp.erase(0,1);
+            auto it = flagsD.find(tmp);
+            if (it != flagsD.end()) //found flag
+            {
+                if (it->second == -1) //capture all inputs till next flag
+                {
+                    auto fg = flags.find(tmp);
+                    if (fg == flags.end())
+                        fg = flags.emplace(tmp,std::vector<std::string>()).first;
+                    for (unsigned j = i+1; j<args.size(); ++j)
+                    {
+                        if (args[j][0] == '-')
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            fg -> second.emplace_back(args[j]);
+                        }
+                        i = j;
+                    }
+                }
+                else //capture specific amount
+                {
+                    std::vector<std::string> tmpv;
+                    if (i + it->second < args.size())
+                    {
+                        bool err = false;
+                        for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
+                        {
+                            if (args[i+j][0] == '-')
+                            {
+                                err = true;
+                            }
+                        }
+                        if (!err) //emplace inputs and push flag
+                        {
+                            auto fg = flags.find(tmp);
+                            if (fg == flags.end())
+                                fg = flags.emplace(tmp,std::vector<std::string>()).first;
+                            for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
+                            {
+                                fg -> second.emplace_back(args[i+j]);
                             }
                             i += it -> second;
                         }
