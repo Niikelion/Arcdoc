@@ -1,5 +1,17 @@
 #include "core.h"
 
+std::set<std::string> Core::getActions() const
+{
+    return std::set<std::string>({
+        "install",
+        "activate"
+    });
+}
+bool Core::performAction(const std::string& action,const std::vector<std::string>& options)
+{
+    return false;
+}
+
 bool Core::loadLang(const std::string& name,const std::string& path)
 {
     std::unique_ptr<Parser> p(new Parser());

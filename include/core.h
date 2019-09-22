@@ -4,7 +4,7 @@
 #include <action.h>
 #include <inter.h>
 
-class Core
+class Core: public ARCDOC::ActionProvider
 {
 private:
     Parser* activatedParser;
@@ -13,6 +13,9 @@ private:
     Generator* activatedGenerator;
     std::map<std::string,std::unique_ptr<Generator>> generators;
 public:
+
+    virtual std::set<std::string> getActions()const override;
+    virtual bool performAction(const std::string& action,const std::vector<std::string>& options) override;
 
     std::vector<std::string> parsersList() const;
     std::vector<std::string> generatorsList() const;

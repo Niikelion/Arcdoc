@@ -2,6 +2,7 @@
 #define ACTION_H_INCLUDED
 
 #include <set>
+#include <vector>
 #include <string>
 
 namespace ARCDOC
@@ -10,7 +11,7 @@ namespace ARCDOC
     {
     public:
         virtual std::set<std::string> getActions() const = 0;
-        virtual bool performAction(const std::string& action) = 0;
+        virtual bool performAction(const std::string& action,const std::vector<std::string>& options) = 0;
     };
 }
 

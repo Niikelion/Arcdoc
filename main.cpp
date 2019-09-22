@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <functional>
 
-#include <inter.h>
+#include <core.h>
 
 using namespace std;
 
