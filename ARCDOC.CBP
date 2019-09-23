@@ -74,6 +74,11 @@
 			<Add directory="../Nullscript project/v2/Nullscript/bin" />
 			<Add directory="../Nlib/bin" />
 		</Linker>
+		<Unit filename="include/action.h" />
+		<Unit filename="include/core.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="include/generator.h">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -91,6 +96,14 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/action.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/core.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

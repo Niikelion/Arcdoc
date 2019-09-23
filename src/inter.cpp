@@ -5,6 +5,7 @@
 
 using namespace NULLSCR;
 using namespace ARCDOC;
+using namespace std;
 
 Namespace& Parser::getGlobalNamespace()
 {
@@ -20,7 +21,7 @@ const Namespace& Parser::getGlobalNamespace() const
     return module->globalNamespace;
 }
 
-bool Parser::load(const std::string& path)
+bool Parser::load(const string& path)
 {
     if (!sl.load(path))
     {
@@ -42,16 +43,25 @@ bool Parser::load(const std::string& path)
     return false;
 }
 
-void Parser::parseString(const std::string& source)
+bool Parser::parseString(const string& source)
 {
     if (module != nullptr)
     {
-        module->parseString(source);
-        //std::cout << module->getItem("member_tree")->toString() << std::endl;
+        try
+        {
+            module->parseString(source);
+            //std::cout << module->getItem("member_tree")->toString() << std::endl;
+        }
+        catch(std::exception e)
+        {
+            return false;
+        }
+        return true;
     }
+    return false;
 }
 
-void Parser::parseFile(const std::string& filename)
+bool Parser::parseFile(const string& filename)
 {
     std::ifstream t(filename);
     if (t.is_open() && module != nullptr)
@@ -59,8 +69,21 @@ void Parser::parseFile(const std::string& filename)
         std::string str((   std::istreambuf_iterator<char>(t)),
                             std::istreambuf_iterator<char>());
         module->setCurrentFile(filename);
-        parseString(str);
+        return parseString(str);
     }
+    return false;
+}
+
+bool Parser::parseProject(const string& filename)
+{
+    return false;
+}
+
+map<string,Action> Parser::getActions() const
+{
+    if (module != nullptr)
+        return module->getActions();
+    return map<string,Action>();
 }
 
 Parser::~Parser()
@@ -105,6 +128,13 @@ void Generator::attach(Parser* p)
 void Generator::generateTo(const std::string& path,const std::string& name) const
 {
     generator->generateOutput(path,name,ParseLib::JSON::Object());
+}
+
+map<string,Action> Generator::getActions() const
+{
+    if (generator != nullptr)
+        return generator->getActions();
+    return map<string,Action>();
 }
 
 Generator::~Generator()
@@ -185,6 +215,74 @@ ConsoleHandler::ConsoleHandler(unsigned argc,const char* argv[],const std::map<s
     }
 }
 
+ConsoleHandler::ConsoleHandler(const std::vector<std::string>& args,const std::map<std::string,int>& fd)
+{
+    flagsD = fd;
+    std::string tmp;
+
+    for (unsigned i = 0; i < args.size(); ++i)
+    {
+        tmp = args[i];
+        if (args[i][0] == '-')
+        {
+            tmp.erase(0,1);
+            auto it = flagsD.find(tmp);
+            if (it != flagsD.end()) //found flag
+            {
+                if (it->second == -1) //capture all inputs till next flag
+                {
+                    auto fg = flags.find(tmp);
+                    if (fg == flags.end())
+                        fg = flags.emplace(tmp,std::vector<std::string>()).first;
+                    for (unsigned j = i+1; j<args.size(); ++j)
+                    {
+                        if (args[j][0] == '-')
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            fg -> second.emplace_back(args[j]);
+                        }
+                        i = j;
+                    }
+                }
+                else //capture specific amount
+                {
+                    std::vector<std::string> tmpv;
+                    if (i + it->second < args.size())
+                    {
+                        bool err = false;
+                        for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
+                        {
+                            if (args[i+j][0] == '-')
+                            {
+                                err = true;
+                            }
+                        }
+                        if (!err) //emplace inputs and push flag
+                        {
+                            auto fg = flags.find(tmp);
+                            if (fg == flags.end())
+                                fg = flags.emplace(tmp,std::vector<std::string>()).first;
+                            for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
+                            {
+                                fg -> second.emplace_back(args[i+j]);
+                            }
+                            i += it -> second;
+                        }
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            values.emplace_back(tmp);
+        }
+    }
+}
+
 bool ConsoleHandler::hasFlag(const std::string& flag) const
 {
     auto it = flags.find(flag);
@@ -198,92 +296,3 @@ std::vector<std::string> ConsoleHandler::getFlag(std::string const& flag) const
         return it -> second;
     return std::vector<std::string>();
 }
-
-bool Core::loadLang(const std::string& name,const std::string& path)
-{
-    std::unique_ptr<Parser> p(new Parser());
-    if (p -> load("langs/"+path))
-    {
-        parsers.emplace(name,std::move(p));
-        return true;
-    }
-    return false;
-}
-
-bool Core::activateParser(std::string const& parser)
-{
-    auto it = parsers.find(parser);
-    if (it == parsers.end())
-        return false;
-    activatedParser = it -> second.get();
-    if (getActiveGenerator() != nullptr)
-        getActiveGenerator()->attach(getActiveParser());
-    return true;
-}
-
-Parser* Core::getParser(std::string const& name) const
-{
-    auto it = parsers.find(name);
-    if (it == parsers.end())
-        return nullptr;
-    return it -> second.get();
-}
-
-Parser* Core::getActiveParser() const
-{
-    return activatedParser;
-}
-
-bool Core::loadGenerator(const std::string& name,const std::string& path)
-{
-    std::unique_ptr<Generator> g(new Generator());
-    if (g -> load("formats/"+path))
-    {
-        generators.emplace(name,std::move(g));
-        return true;
-    }
-    return false;
-}
-
-bool Core::activateGenerator(std::string const& generator)
-{
-    auto it = generators.find(generator);
-    if (it == generators.end())
-        return false;
-    activatedGenerator = it -> second.get();
-    if (getActiveParser() != nullptr)
-        getActiveGenerator()->attach(getActiveParser());
-    return true;
-}
-
-Generator* Core::getGenerator(std::string const& name) const
-{
-    auto it = generators.find(name);
-    if (it == generators.end())
-        return nullptr;
-    return it -> second.get();
-}
-
-Generator* Core::getActiveGenerator() const
-{
-    return activatedGenerator;
-}
-
-std::vector<std::string> Core::parsersList() const
-{
-    std::vector<std::string> ret;
-    ret.reserve(parsers.size());
-    for (const auto& i:parsers)
-        ret.emplace_back(i.first);
-    return std::move(ret);
-}
-
-std::vector<std::string> Core::generatorsList() const
-{
-    std::vector<std::string> ret;
-    ret.reserve(generators.size());
-    for (const auto& i:generators)
-        ret.emplace_back(i.first);
-    return std::move(ret);
-}
-
