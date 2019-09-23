@@ -6,7 +6,7 @@
 
 namespace ARCDOC
 {
-    class OutputGenerator
+    class OutputGenerator: public ActionProvider
     {
     private:
         Module* m_;

@@ -92,6 +92,7 @@ vector<string> Core::generatorsList() const
 
 bool Core::installCmd(const vector<string>& args)
 {
+    cout << "not implemented yet\n";
     return false;
 }
 
@@ -112,6 +113,11 @@ bool Core::showCmd(const vector<string>& args)
             for (const auto& i:tmp)
                 cout << i << "\n";
         }
+        else
+        {
+            cout << "unknown argument\n";
+            return false;
+        }
         return true;
     }
     if (args.size() == 0)
@@ -119,6 +125,7 @@ bool Core::showCmd(const vector<string>& args)
         cout << "available arguments: languages, formats\n";
         return true;
     }
+    cout << "too many arguments\n";
     return false;
 }
 
@@ -133,7 +140,12 @@ bool Core::activateCmd(const vector<string>& args)
     bool of = ch.hasFlag("of");
     if ((l && of) || ch.values.size() != 1)
     {
-        //err
+        if (ch.values.size() == 0)
+            cout << "module not specified\n";
+        else if (ch.values.size() > 1)
+            cout << "too much modules specified\n";
+        else if (l && of)
+            cout << "can't activate both language and format modules\n";
         return false;
     }
     else if (l)
@@ -143,6 +155,10 @@ bool Core::activateCmd(const vector<string>& args)
     else if (of)
     {
         return activateGenerator(ch.values.front());
+    }
+    else
+    {
+        cout << "no target specified\n";
     }
     return false;
 }
@@ -161,7 +177,7 @@ bool Core::listCmd(const vector<string>& args)
             cout << "available arguments: updated\n";
             return true;
         }
-        //err
+        cout << "too many arguments\n";
         return false;
     }
     if (ch.values.front() == "updated")
@@ -175,12 +191,13 @@ bool Core::listCmd(const vector<string>& args)
         }
         else
         {
-            //error
+            cout << "language not specified\n";
             return false;
         }
     }
     else
     {
+        cout << "unknown argument\n";
         return false;
     }
     return true;
@@ -214,12 +231,12 @@ bool Core::generateCmd(const vector<string>& args)
 {
     ConsoleHandler ch(args,
     {
-        make_pair("og",1),
+        make_pair("of",1),
         make_pair("n",1)
     });
     if (ch.values.size() == 1)
     {
-        if (ch.hasFlag("og"))
+        if (ch.hasFlag("of"))
         {
             //more module forkery
         }

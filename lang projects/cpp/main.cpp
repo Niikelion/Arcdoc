@@ -963,14 +963,6 @@ public:
         }
         return std::move(ret);
     }
-    virtual bool performAction(ARCDOC::Member& target, const std::string& action) override
-    {
-        return false;
-    }
-    virtual std::vector<std::string> availableActions() const override
-    {
-        return std::move(std::vector<std::string>());
-    }
 };
 
 extern "C" __declspec(dllexport) __cdecl ARCDOC::Module* moduleFactory()

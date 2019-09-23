@@ -259,12 +259,13 @@
 	<functional>
 	<core.h>
 
-1569193991 d:\projects\arcdoc\include\inter.h
+1569234841 d:\projects\arcdoc\include\inter.h
 	<nullscript/nullscript.h>
 	<tokens.h>
 	<nlib/slib/slib.h>
 	<module.h>
 	<generator.h>
+	<action.h>
 	<memory>
 	<string>
 
@@ -275,16 +276,17 @@
 	<memory>
 	<map>
 
-1569110579 d:\projects\arcdoc\include\module.h
+1569234778 d:\projects\arcdoc\include\module.h
 	<nullscript/nullscript.h>
 	<tokens.h>
+	<action.h>
 	<memory>
 	<vector>
 	<string>
 	<set>
 	<parselib/XML/xml.hpp>
 
-1569110579 d:\projects\arcdoc\include\generator.h
+1569234753 d:\projects\arcdoc\include\generator.h
 	<module.h>
 	<parselib/JSON/json.h>
 
@@ -310,7 +312,7 @@
 	<iostream>
 	<functional>
 
-1569194378 source:d:\projects\arcdoc\src\core.cpp
+1569233126 source:d:\projects\arcdoc\src\core.cpp
 	"core.h"
 
 1569195316 source:d:\projects\arcdoc\src\action.cpp

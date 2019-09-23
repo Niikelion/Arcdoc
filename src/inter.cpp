@@ -5,6 +5,7 @@
 
 using namespace NULLSCR;
 using namespace ARCDOC;
+using namespace std;
 
 Namespace& Parser::getGlobalNamespace()
 {
@@ -20,7 +21,7 @@ const Namespace& Parser::getGlobalNamespace() const
     return module->globalNamespace;
 }
 
-bool Parser::load(const std::string& path)
+bool Parser::load(const string& path)
 {
     if (!sl.load(path))
     {
@@ -42,7 +43,7 @@ bool Parser::load(const std::string& path)
     return false;
 }
 
-bool Parser::parseString(const std::string& source)
+bool Parser::parseString(const string& source)
 {
     if (module != nullptr)
     {
@@ -60,7 +61,7 @@ bool Parser::parseString(const std::string& source)
     return false;
 }
 
-bool Parser::parseFile(const std::string& filename)
+bool Parser::parseFile(const string& filename)
 {
     std::ifstream t(filename);
     if (t.is_open() && module != nullptr)
@@ -73,9 +74,16 @@ bool Parser::parseFile(const std::string& filename)
     return false;
 }
 
-bool Parser::parseProject(const std::string& filename)
+bool Parser::parseProject(const string& filename)
 {
     return false;
+}
+
+map<string,Action> Parser::getActions() const
+{
+    if (module != nullptr)
+        return module->getActions();
+    return map<string,Action>();
 }
 
 Parser::~Parser()
@@ -120,6 +128,13 @@ void Generator::attach(Parser* p)
 void Generator::generateTo(const std::string& path,const std::string& name) const
 {
     generator->generateOutput(path,name,ParseLib::JSON::Object());
+}
+
+map<string,Action> Generator::getActions() const
+{
+    if (generator != nullptr)
+        return generator->getActions();
+    return map<string,Action>();
 }
 
 Generator::~Generator()

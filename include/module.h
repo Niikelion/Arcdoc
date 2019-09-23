@@ -3,6 +3,7 @@
 
 #include <nullscript/nullscript.h>
 #include <tokens.h>
+#include <action.h>
 
 #include <memory>
 #include <vector>
@@ -13,7 +14,7 @@
 
 namespace ARCDOC
 {
-    class Module
+    class Module: public ActionProvider
     {
     protected:
         NULLSCR::Tokenizer tokenizer;
@@ -32,8 +33,6 @@ namespace ARCDOC
 
         virtual std::set<std::string> getAvailableItems() = 0;
         virtual std::shared_ptr<ParseLib::XML::Tag> getItem(const std::string& name) = 0;
-        virtual bool performAction(Member& target, const std::string& action) = 0;
-        virtual std::vector<std::string> availableActions() const = 0;
 
         virtual ~Module() = default;
     };

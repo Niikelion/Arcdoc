@@ -7,6 +7,7 @@
 
 #include <module.h>
 #include <generator.h>
+#include <action.h>
 
 #include <memory>
 #include <string>
@@ -38,6 +39,8 @@ public:
     ARCDOC::Module* getModule() { return module; };
     const ARCDOC::Module* getModule() const {return module; };
 
+    std::map<std::string,ARCDOC::Action> getActions() const;
+
     Parser():sl(),module(nullptr){};
     ~Parser();
 };
@@ -55,6 +58,8 @@ public:
     void attach(Parser* p);
 
     void generateTo(const std::string& path,const std::string& name) const;
+
+    std::map<std::string,ARCDOC::Action> getActions() const;
 
     ~Generator();
 };
