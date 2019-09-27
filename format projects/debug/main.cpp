@@ -1,6 +1,7 @@
 #include <generator.h>
 
 #include <fstream>
+#include <iostream>
 
 class DebugGenerator: public ARCDOC::OutputGenerator
 {
@@ -10,14 +11,18 @@ public:
         std::ofstream out(path+"/"+name+".txt");
         if (out.is_open())
         {
-            std::set<std::string> items = getModule()->getAvailableItems();
-            for (const auto& i:items)
+            if (getModule() != nullptr)
             {
-                out << "<!--" << i << "-->\n" << getModule()->getItem(i)->toString();
+                std::set<std::string> items = getModule()->getAvailableItems();
+                for (const auto& i:items)
+                {
+                    out << "<!--" << i << "-->\n" << getModule()->getItem(i)->toString();
+                }
             }
             out.close();
         }
     }
+    DebugGenerator(): ARCDOC::OutputGenerator() {}
 };
 
 extern "C" __declspec(dllexport) __cdecl ARCDOC::OutputGenerator* generatorFactory()

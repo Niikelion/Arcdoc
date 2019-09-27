@@ -61,6 +61,9 @@ public:
 
     std::map<std::string,ARCDOC::Action> getActions() const;
 
+    ARCDOC::OutputGenerator* getModule() { return generator; };
+    const ARCDOC::OutputGenerator* getModule() const {return generator; };
+
     ~Generator();
 };
 

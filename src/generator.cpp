@@ -2,12 +2,12 @@
 
 namespace ARCDOC
 {
-    Module* OutputGenerator::getModule() const
+    Module* OutputGenerator::getModule()
     {
         return m_;
     }
-    void OutputGenerator::attachModule(Module& module)
+    void OutputGenerator::attachModule(Module* module)
     {
-        m_ = &module;
+        m_ = module;
     }
 }
