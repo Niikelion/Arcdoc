@@ -36,15 +36,11 @@ public:
         registerAction("list",listCmd);
         registerAction("parse",parseCmd);
         registerAction("generate",generateCmd);
-        /*return std::set<std::string>({
-        "install",
-        "activate",
-        "list",
-        "help",
-        "show",
-        "@ps",
-        "@og"
-        });*/
+        registerAction("selfcheck",selfcheckCmd);
+        /*
+        @ps
+        @og
+        */
     }
 
     bool installCmd(const std::vector<std::string>& args);
@@ -53,6 +49,7 @@ public:
     bool listCmd(const std::vector<std::string>& args);
     bool parseCmd(const std::vector<std::string>& args);
     bool generateCmd(const std::vector<std::string>& args);
+    bool selfcheckCmd(const std::vector<std::string>& args);
 };
 
 #endif // CORE_H

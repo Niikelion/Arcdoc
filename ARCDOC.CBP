@@ -29,7 +29,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-ps cpp -f in.txt" />
+				<Option parameters="-i" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="include" />
@@ -75,6 +75,7 @@
 			<Add directory="../Nlib/bin" />
 		</Linker>
 		<Unit filename="include/action.h" />
+		<Unit filename="include/colors.h" />
 		<Unit filename="include/core.h">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -87,6 +88,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="include/log.h" />
 		<Unit filename="include/module.h">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -112,6 +114,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/log.cpp" />
 		<Unit filename="src/module.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />

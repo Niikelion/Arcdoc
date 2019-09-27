@@ -248,7 +248,7 @@
 1568564722 source:g:\c++\projects\arcdoc\src\generator.cpp
 	"generator.h"
 
-1569194858 source:d:\projects\arcdoc\main.cpp
+1569248191 source:d:\projects\arcdoc\main.cpp
 	<iostream>
 	<fstream>
 	<vector>
@@ -259,7 +259,7 @@
 	<functional>
 	<core.h>
 
-1569234841 d:\projects\arcdoc\include\inter.h
+1569325890 d:\projects\arcdoc\include\inter.h
 	<nullscript/nullscript.h>
 	<tokens.h>
 	<nlib/slib/slib.h>
@@ -276,7 +276,7 @@
 	<memory>
 	<map>
 
-1569234778 d:\projects\arcdoc\include\module.h
+1569248191 d:\projects\arcdoc\include\module.h
 	<nullscript/nullscript.h>
 	<tokens.h>
 	<action.h>
@@ -286,35 +286,48 @@
 	<set>
 	<parselib/XML/xml.hpp>
 
-1569234753 d:\projects\arcdoc\include\generator.h
+1569327182 d:\projects\arcdoc\include\generator.h
 	<module.h>
 	<parselib/JSON/json.h>
 
-1569110579 source:d:\projects\arcdoc\src\generator.cpp
+1569327177 source:d:\projects\arcdoc\src\generator.cpp
 	"generator.h"
 
 1569110579 source:d:\projects\arcdoc\src\module.cpp
 	"module.h"
 
-1569194071 source:d:\projects\arcdoc\src\inter.cpp
+1569325364 source:d:\projects\arcdoc\src\inter.cpp
 	"inter.h"
 	<fstream>
 	<iostream>
 
-1569194962 d:\projects\arcdoc\include\core.h
+1569325485 d:\projects\arcdoc\include\core.h
 	<action.h>
 	<inter.h>
 
-1569194712 d:\projects\arcdoc\include\action.h
+1569248191 d:\projects\arcdoc\include\action.h
 	<map>
 	<vector>
 	<string>
 	<iostream>
 	<functional>
 
-1569233126 source:d:\projects\arcdoc\src\core.cpp
+1569325917 source:d:\projects\arcdoc\src\core.cpp
 	"core.h"
+	<colors.h>
 
-1569195316 source:d:\projects\arcdoc\src\action.cpp
+1569248191 source:d:\projects\arcdoc\src\action.cpp
 	"action.h"
+
+1569249964 source:d:\projects\arcdoc\src\log.cpp
+	"log.h"
+
+1569250278 d:\projects\arcdoc\include\log.h
+	<iostream>
+	<string>
+	<exception>
+
+1569323382 d:\projects\arcdoc\include\colors.h
+	<iostream>
+	<windows.h>
 

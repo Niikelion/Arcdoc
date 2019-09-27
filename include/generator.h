@@ -8,13 +8,15 @@ namespace ARCDOC
 {
     class OutputGenerator: public ActionProvider
     {
-    private:
+    protected:
         Module* m_;
     public:
-        Module* getModule() const;
-        void attachModule(Module& module);
+        Module* getModule();
+        void attachModule(Module* module);
         virtual void generateOutput(const std::string& path,const std::string& name,const ParseLib::JSON::Value& config) = 0;
         virtual void init() {}
+
+        OutputGenerator(): m_(nullptr) {};
 
         virtual ~OutputGenerator() = default;
     };

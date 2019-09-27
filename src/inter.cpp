@@ -121,7 +121,7 @@ void Generator::attach(Parser* p)
 {
     if (generator != nullptr)
     {
-        generator->attachModule(*p->getModule());
+        generator->attachModule(p->getModule());
     }
 }
 

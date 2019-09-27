@@ -1,4 +1,5 @@
 #include "core.h"
+#include <colors.h>
 
 using namespace std;
 
@@ -92,7 +93,7 @@ vector<string> Core::generatorsList() const
 
 bool Core::installCmd(const vector<string>& args)
 {
-    cout << "not implemented yet\n";
+    cout << CmdColors::yellow << "not implemented yet\n" << CmdColors::none;
     return false;
 }
 
@@ -115,7 +116,7 @@ bool Core::showCmd(const vector<string>& args)
         }
         else
         {
-            cout << "unknown argument\n";
+            cout << CmdColors::yellow << "unknown argument\n" << CmdColors::none;
             return false;
         }
         return true;
@@ -125,7 +126,7 @@ bool Core::showCmd(const vector<string>& args)
         cout << "available arguments: languages, formats\n";
         return true;
     }
-    cout << "too many arguments\n";
+    cout << CmdColors::yellow << "too many arguments\n" << CmdColors::none;
     return false;
 }
 
@@ -140,12 +141,14 @@ bool Core::activateCmd(const vector<string>& args)
     bool of = ch.hasFlag("of");
     if ((l && of) || ch.values.size() != 1)
     {
+        cout << CmdColors::yellow;
         if (ch.values.size() == 0)
             cout << "module not specified\n";
         else if (ch.values.size() > 1)
             cout << "too much modules specified\n";
-        else if (l && of)
+        else
             cout << "can't activate both language and format modules\n";
+        cout << CmdColors::none;
         return false;
     }
     else if (l)
@@ -158,7 +161,7 @@ bool Core::activateCmd(const vector<string>& args)
     }
     else
     {
-        cout << "no target specified\n";
+        cout << CmdColors::yellow << "no target specified\n" << CmdColors::none;
     }
     return false;
 }
@@ -177,7 +180,7 @@ bool Core::listCmd(const vector<string>& args)
             cout << "available arguments: updated\n";
             return true;
         }
-        cout << "too many arguments\n";
+        cout << CmdColors::yellow << "too many arguments\n" << CmdColors::none;
         return false;
     }
     if (ch.values.front() == "updated")
@@ -191,13 +194,13 @@ bool Core::listCmd(const vector<string>& args)
         }
         else
         {
-            cout << "language not specified\n";
+            cout << CmdColors::yellow << "language not specified\n" << CmdColors::none;
             return false;
         }
     }
     else
     {
-        cout << "unknown argument\n";
+        cout << CmdColors::yellow << "unknown argument\n" << CmdColors::none;
         return false;
     }
     return true;
@@ -211,19 +214,25 @@ bool Core::parseCmd(const vector<string>& args)
     });
     bool isProject = ch.hasFlag("p");
 
-    if (ch.values.size() == 1)
+    if (ch.values.size() >= 1)
     {
         if (getActiveParser() != nullptr)
         {
-            if (isProject)
-                return getActiveParser()->parseProject(ch.values.front());
-            else
-                return getActiveParser()->parseFile(ch.values.front());
+            for (const auto& i:ch.values)
+            {
+                if (isProject)
+                    return getActiveParser()->parseProject(i);
+                else
+                    return getActiveParser()->parseFile(i);
+            }
         }
-        //error
+        cout << CmdColors::red << "inactive language module\n" << CmdColors::none;
         return false;
     }
-    //err
+    else if (ch.values.size() == 0)
+    {
+        cout << CmdColors::yellow << "file(s) not specified\n" << CmdColors::none;
+    }
     return false;
 }
 
@@ -241,13 +250,52 @@ bool Core::generateCmd(const vector<string>& args)
             //more module forkery
         }
 
-        string name="project";
-        if (ch.hasFlag("n"))
-            name = ch.getFlag("n").front();
-
-        getActiveGenerator()->generateTo(ch.values.front(),name);
-        return true;
+        if (getActiveGenerator() != nullptr)
+        {
+            string name="project";
+            if (ch.hasFlag("n"))
+                name = ch.getFlag("n").front();
+            getActiveGenerator()->generateTo(ch.values.front(),name);
+            return true;
+        }
+        cout << CmdColors::red << "inactive format module\n" << CmdColors::none;
+        return false;
     }
-    //error
+    cout << CmdColors::yellow;
+    if (ch.values.size() == 0)
+    {
+        cout << "output path not specified\n";
+    }
+    else
+    {
+        cout << "too many arguments\n";
+    }
+    cout << CmdColors::none;
     return false;
+}
+
+bool Core::selfcheckCmd(const vector<string>& args)
+{
+    if (getActiveParser() == nullptr)
+    {
+        cout << CmdColors::yellow << "inactive language module\n";
+    }
+    else if (getActiveParser()->getModule() == nullptr)
+    {
+        cout << CmdColors::red << "corrupted language module\n";
+    }
+    if (getActiveGenerator() == nullptr)
+    {
+        cout << CmdColors::yellow << "inactive format module\n";
+    }
+    else if (getActiveGenerator()->getModule() == nullptr)
+    {
+        cout << CmdColors::red << "corrupted format module\n";
+    }
+    else if (getActiveGenerator()->getModule()->getModule() == nullptr)
+    {
+        cout << CmdColors::red << "desynchronized format module\n";
+    }
+    cout << CmdColors::none;
+    return true;
 }
