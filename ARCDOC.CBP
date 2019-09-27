@@ -88,7 +88,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="include/log.h" />
 		<Unit filename="include/module.h">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -114,7 +113,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/log.cpp" />
 		<Unit filename="src/module.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />

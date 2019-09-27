@@ -259,7 +259,7 @@
 	<functional>
 	<core.h>
 
-1569325890 d:\projects\arcdoc\include\inter.h
+1569610199 d:\projects\arcdoc\include\inter.h
 	<nullscript/nullscript.h>
 	<tokens.h>
 	<nlib/slib/slib.h>
@@ -286,22 +286,22 @@
 	<set>
 	<parselib/XML/xml.hpp>
 
-1569327182 d:\projects\arcdoc\include\generator.h
+1569610199 d:\projects\arcdoc\include\generator.h
 	<module.h>
 	<parselib/JSON/json.h>
 
-1569327177 source:d:\projects\arcdoc\src\generator.cpp
+1569610199 source:d:\projects\arcdoc\src\generator.cpp
 	"generator.h"
 
 1569110579 source:d:\projects\arcdoc\src\module.cpp
 	"module.h"
 
-1569325364 source:d:\projects\arcdoc\src\inter.cpp
+1569610199 source:d:\projects\arcdoc\src\inter.cpp
 	"inter.h"
 	<fstream>
 	<iostream>
 
-1569325485 d:\projects\arcdoc\include\core.h
+1569610199 d:\projects\arcdoc\include\core.h
 	<action.h>
 	<inter.h>
 
@@ -312,7 +312,7 @@
 	<iostream>
 	<functional>
 
-1569325917 source:d:\projects\arcdoc\src\core.cpp
+1569610199 source:d:\projects\arcdoc\src\core.cpp
 	"core.h"
 	<colors.h>
 
