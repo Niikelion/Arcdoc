@@ -3,6 +3,7 @@
 
 #include <nullscript/tokens.h>
 #include <string>
+#include <set>
 #include <typeindex>
 #include <memory>
 #include <map>
@@ -31,18 +32,69 @@ namespace ARCDOC
         std::vector<std::pair<std::string,std::string>> parents;
     };
 
+    struct MemberOrigin
+    {
+        std::string filename;
+        unsigned pos;
+
+        bool operator < (const MemberOrigin& t) const noexcept
+        {
+            if (filename.size() == t.filename.size())
+            {
+                for (unsigned i=0; i<filename.size(); ++i)
+                {
+                    if (filename[i] != t.filename[i])
+                        return filename[i] < t.filename[i];
+                }
+                return pos < t.pos;
+            }
+            return filename.size() < t.filename.size();
+        }
+
+        bool operator == (const MemberOrigin& t) const noexcept
+        {
+            if (pos == t.pos)
+            {
+                return filename == t.filename;
+            }
+            return false;
+        }
+
+        MemberOrigin():pos(0) {}
+        MemberOrigin(unsigned p):pos(p) {}
+        MemberOrigin(const std::string& f):filename(f),pos(0) {}
+        MemberOrigin(const std::string& f,unsigned p):filename(f),pos(p) {}
+        MemberOrigin(const MemberOrigin&) = default;
+    };
+
     struct Member
     {
-        std::string name,description,filename;
-        unsigned pos;
-        std::vector<std::pair<unsigned,std::string>> references;
+        std::string name,description,path;
+        std::set<MemberOrigin> origins;
+        std::vector<Member*> parents;
 
         virtual std::type_index getType() const = 0;
-        virtual bool isSame(const Member& t) const { return getType() == t.getType() && name == t.name; }
-        virtual void mergeWith(Member&&) {}
+        virtual bool isSame(const Member& t) const
+        {
+            if (getType() == t.getType() && name == t.name && parents.size() == t.parents.size())
+            {
+                for (unsigned i=0; i<parents.size(); ++i)
+                    if (parents[i] != t.parents[i])
+                        return false;
+                return true;
+            }
+            return false;
+        }
+        virtual void mergeWith(Member&& t)
+        {
+            for (auto& i:t.origins)
+            {
+                origins.emplace(i);
+            }
+        }
         virtual std::unique_ptr<Member> clone() const = 0;
 
-        Member(const std::string& n): name(n),pos(0) {};
+        Member(const std::string& n): name(n) {};
         virtual ~Member() = default;
     };
 
@@ -119,6 +171,7 @@ namespace ARCDOC
         {
             if (t.getType() == getType())
             {
+                Member::mergeWith(std::move(t));
                 for (auto& i:reinterpret_cast<Namespace&&>(t).members)
                 {
                     bool n = true;

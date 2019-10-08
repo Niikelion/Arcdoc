@@ -49,6 +49,7 @@ bool Parser::parseString(const string& source)
     {
         try
         {
+            //module->globalNamespace.members.clear();
             module->parseString(source);
             //std::cout << module->getItem("member_tree")->toString() << std::endl;
         }

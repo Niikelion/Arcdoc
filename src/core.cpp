@@ -189,7 +189,17 @@ bool Core::listCmd(const vector<string>& args)
         {
             for (const auto& i:getActiveParser()->getModule()->newMembers)
             {
-                cout << i->filename << "(" << i->pos << "): " << i->name << "\n";
+                for (auto origin = i->origins.cbegin(); origin != i->origins.cend(); origin++)
+                {
+                    auto tmp = origin;
+                    tmp++;
+                    cout << origin->filename << "(" << origin->pos << ")" << (((tmp)==i->origins.cend())?": ":",\n");
+                }
+                for (auto parent = i->parents.cbegin(); parent != i->parents.cend(); parent++)
+                {
+                    cout << (parent==i->parents.begin()?"::":"") << (*parent)->name;
+                }
+                cout << i->name << "\n";
             }
         }
         else
@@ -213,7 +223,6 @@ bool Core::parseCmd(const vector<string>& args)
         make_pair("p",0)
     });
     bool isProject = ch.hasFlag("p");
-
     if (ch.values.size() >= 1)
     {
         if (getActiveParser() != nullptr)
