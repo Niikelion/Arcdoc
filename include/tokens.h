@@ -71,7 +71,7 @@ namespace ARCDOC
     {
         std::string name,description,path;
         std::set<MemberOrigin> origins;
-        std::vector<Member*> parents;
+        Member* parent;
 
         virtual std::type_index getType() const = 0;
         virtual bool isSame(const Member& t) const
@@ -94,7 +94,7 @@ namespace ARCDOC
         }
         virtual std::unique_ptr<Member> clone() const = 0;
 
-        Member(const std::string& n): name(n) {};
+        Member(const std::string& n): name(n), parent(nullptr) {}
         virtual ~Member() = default;
     };
 
@@ -109,7 +109,8 @@ namespace ARCDOC
         {
             return typeid(T);
         }
-        MemberBase(const std::string& n):Member(n) {};
+        MemberBase(): Member() {};
+        MemberBase(const std::string& n): Member(n) {};
     };
 
     class Alias: public MemberBase<Alias>
@@ -193,7 +194,7 @@ namespace ARCDOC
         Namespace(): MemberBase("") {};
 
         Namespace(const std::string& name): MemberBase(name) {};
-        Namespace(const Namespace& t):MemberBase(t.name)
+        Namespace(const Namespace& t): MemberBase(t.name)
         {
             members.reserve(t.members.size());
             for (const auto& i:t.members)
