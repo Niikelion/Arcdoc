@@ -76,14 +76,7 @@ namespace ARCDOC
         virtual std::type_index getType() const = 0;
         virtual bool isSame(const Member& t) const
         {
-            if (getType() == t.getType() && name == t.name && parents.size() == t.parents.size())
-            {
-                for (unsigned i=0; i<parents.size(); ++i)
-                    if (parents[i] != t.parents[i])
-                        return false;
-                return true;
-            }
-            return false;
+            return (getType() == t.getType() && name == t.name && parent == t.parent);
         }
         virtual void mergeWith(Member&& t)
         {

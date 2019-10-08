@@ -195,9 +195,11 @@ bool Core::listCmd(const vector<string>& args)
                     tmp++;
                     cout << origin->filename << "(" << origin->pos << ")" << (((tmp)==i->origins.cend())?": ":",\n");
                 }
-                for (auto parent = i->parents.cbegin(); parent != i->parents.cend(); parent++)
+                ARCDOC::Member* parent = i->parent;
+                while (parent != nullptr)
                 {
-                    cout << (parent==i->parents.begin()?"::":"") << (*parent)->name;
+                    cout << parent -> name << "::";
+                    parent = parent -> parent;
                 }
                 cout << i->name << "\n";
             }
