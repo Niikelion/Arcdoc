@@ -23,6 +23,7 @@ namespace ARCDOC
         virtual void extractSymbols(const std::vector<NULLSCR::TokenEntity>&) = 0;
         virtual void initTokenizer() = 0;
     public:
+        std::map<std::string,Member*> members;
         std::set<Member*> newMembers;
         ARCDOC::Namespace globalNamespace;
 

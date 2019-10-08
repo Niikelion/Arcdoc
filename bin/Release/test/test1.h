@@ -8,3 +8,12 @@ namespace TEST
         std::string name;
     };
 }
+
+namespace TEST
+{
+    class B
+    {
+    public:
+        int pos;
+    };
+}

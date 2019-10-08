@@ -23,12 +23,12 @@
 	<memory>
 	<map>
 
-1569326829 source:d:\projects\arcdoc\format projects\debug\main.cpp
+1569610199 source:d:\projects\arcdoc\format projects\debug\main.cpp
 	<generator.h>
 	<fstream>
 	<iostream>
 
-1569327182 d:\projects\arcdoc\include\generator.h
+1569610199 d:\projects\arcdoc\include\generator.h
 	<module.h>
 	<parselib/JSON/json.h>
 
@@ -42,9 +42,10 @@
 	<set>
 	<parselib/XML/xml.hpp>
 
-1569110579 d:\projects\arcdoc\include\tokens.h
+1570201333 d:\projects\arcdoc\include\tokens.h
 	<nullscript/tokens.h>
 	<string>
+	<set>
 	<typeindex>
 	<memory>
 	<map>

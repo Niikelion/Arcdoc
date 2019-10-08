@@ -269,14 +269,15 @@
 	<memory>
 	<string>
 
-1569110579 d:\projects\arcdoc\include\tokens.h
+1570567505 d:\projects\arcdoc\include\tokens.h
 	<nullscript/tokens.h>
 	<string>
+	<set>
 	<typeindex>
 	<memory>
 	<map>
 
-1569248191 d:\projects\arcdoc\include\module.h
+1570567246 d:\projects\arcdoc\include\module.h
 	<nullscript/nullscript.h>
 	<tokens.h>
 	<action.h>
@@ -296,7 +297,7 @@
 1569110579 source:d:\projects\arcdoc\src\module.cpp
 	"module.h"
 
-1569610199 source:d:\projects\arcdoc\src\inter.cpp
+1570567246 source:d:\projects\arcdoc\src\inter.cpp
 	"inter.h"
 	<fstream>
 	<iostream>
@@ -312,7 +313,7 @@
 	<iostream>
 	<functional>
 
-1569610199 source:d:\projects\arcdoc\src\core.cpp
+1570484077 source:d:\projects\arcdoc\src\core.cpp
 	"core.h"
 	<colors.h>
 

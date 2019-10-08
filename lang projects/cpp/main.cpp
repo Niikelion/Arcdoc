@@ -701,16 +701,14 @@ void setupMrg(Stage* mrg)
 ARCDOC::Namespace* createNamespaceFt(NamespaceToken& nt,const std::string& filename)
 {
     ARCDOC::Namespace* n = new ARCDOC::Namespace(nt.name);
-    n->pos = nt.getPos();
-    n->filename = filename;
+    n->origins.emplace(filename,nt.getPos());
     return n;
 }
 
 ARCDOC::Structure* createStructureFt(ClassToken& ct,const std::string& filename)
 {
     ARCDOC::Structure* n = new ARCDOC::Structure(ct.name);
-    n->pos = ct.getPos();
-    n->filename = filename;
+    n->origins.emplace(filename,ct.getPos());
     for (const auto& parent: ct.parents)
     {
         n -> parents.emplace_back(std::string(VlaToStr(std::get<0>(parent)))+" "+std::get<1>(parent),std::get<2>(parent));
@@ -721,8 +719,7 @@ ARCDOC::Structure* createStructureFt(ClassToken& ct,const std::string& filename)
 ARCDOC::Function* createFunctionFt(FunctionToken& ft,const std::string& filename)//
 {
     ARCDOC::Function* n = new ARCDOC::Function(ft.name);
-    n->pos =ft.getPos();
-    n->filename = filename;
+    n->origins.emplace(filename,ft.getPos());
 
     n -> type = ft.type;
     n -> modifiers = ft.modifiers;
@@ -733,8 +730,7 @@ ARCDOC::Function* createFunctionFt(FunctionToken& ft,const std::string& filename
 ARCDOC::Variable* createVariableFt(VariableToken& vt,const std::string& filename)//
 {
     ARCDOC::Variable* n = new ARCDOC::Variable(vt.name);
-    n->pos = vt.getPos();
-    n->filename = filename;
+    n->origins.emplace(filename,vt.getPos());
 
     n -> type = vt.type;
     return n;
@@ -743,8 +739,7 @@ ARCDOC::Variable* createVariableFt(VariableToken& vt,const std::string& filename
 ARCDOC::Alias* createAliasFt(AliasToken& at,const std::string& filename)
 {
     ARCDOC::Alias* n = new ARCDOC::Alias(at.name);
-    n->pos = at.getPos();
-    n->filename = filename;
+    n->origins.emplace(filename,at.getPos());
 
     n -> target = stringifyTokens(at.tokens);
     return n;
@@ -787,19 +782,19 @@ void recursiveClassExtract(const std::vector<TokenEntity>& source, ARCDOC::Struc
     }
 }
 
-bool findToMerge(ARCDOC::Member* t,ARCDOC::Namespace& target)
+std::vector<std::unique_ptr<ARCDOC::Member>>::iterator findToMerge(ARCDOC::Member* t,ARCDOC::Namespace& target)
 {
-    for (auto& i:target.members)
+    for (auto i=target.members.begin(); i != target.members.end(); ++i)
     {
-        if (i->isSame(*t))
+        if (i->get()->isSame(*t))
         {
-            return true;
+            return i;
         }
     }
-    return false;
+    return target.members.end();
 }
 
-void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Namespace& target,std::set<ARCDOC::Member*>& nm,const std::string& filename)
+void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Namespace& target,std::set<ARCDOC::Member*>& nm,std::map<std::string,ARCDOC::Member*>& sm,const std::string& filename)
 {
     for (const auto& i:source)
     {
@@ -808,23 +803,21 @@ void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Na
             NamespaceToken& nt = i.token -> forceAs<NamespaceToken>();
             ARCDOC::Namespace* n = createNamespaceFt(nt,filename);
 
-            if (!findToMerge(n,target))
+            auto it = findToMerge(n,target);
+            if (it == target.members.end())
             {
                 target.members.emplace_back(n);
                 nm.insert(n);
-                recursiveNamespaceSearch(nt.tokens,*n,nm,filename);
+                sm.emplace("namespace",n);
+                recursiveNamespaceSearch(nt.tokens,*n,nm,sm,filename);
             }
             else
             {
-                recursiveNamespaceSearch(nt.tokens,*n,nm,filename);
-                for (auto& i:target.members)
-                {
-                    if (i->isSame(*n))
-                    {
-                        i->mergeWith(std::move(*n));
-                        nm.insert(i.get());
-                    }
-                }
+                it->get()->mergeWith(std::move(*n));
+                recursiveNamespaceSearch(nt.tokens,*reinterpret_cast<ARCDOC::Namespace*>(it->get()),nm,sm,filename);
+                nm.insert(it->get());
+                sm.emplace("namespace",it->get());
+
                 delete n;
             }
         }
@@ -833,27 +826,26 @@ void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Na
             ClassToken& ct = i.token -> forceAs<ClassToken>();
             ARCDOC::Structure* n = createStructureFt(ct,filename);
 
-            if (!findToMerge(n,target))
+            auto it = findToMerge(n,target);
+
+            if (it == target.members.end())
             {
                 target.members.emplace_back(n);
                 nm.insert(n);
+                sm.emplace("class",n);
                 recursiveClassExtract(ct.tokens,*n,ct.level,filename);
             }
             else
             {
-                recursiveClassExtract(ct.tokens,*n,ct.level,filename);
-                for (auto& i:target.members)
-                {
-                    if (i->isSame(*n))
-                    {
-                        i->mergeWith(std::move(*n));
-                        nm.insert(i.get());
-                    }
-                }
+                it->get()->mergeWith(std::move(*n));
+                recursiveClassExtract(ct.tokens,*reinterpret_cast<ARCDOC::Structure*>(it->get()),ct.level,filename);
+                nm.insert(it->get());
+                sm.emplace("class",it->get());
+
                 delete n;
             }
         }
-        else if (i.type == Ids::Function)
+        /*else if (i.type == Ids::Function)
         {
             FunctionToken& ft = i.token -> forceAs<FunctionToken>();
             ARCDOC::Function* n = createFunctionFt(ft,filename);
@@ -864,7 +856,7 @@ void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Na
             AliasToken& at = i.token -> forceAs<AliasToken>();
             ARCDOC::Alias* n = createAliasFt(at,filename);
             target.members.emplace_back(n);
-        }
+        }*/
     }
 }
 
@@ -884,10 +876,10 @@ void tokenizerSetup(Tokenizer& tk)
 }
 
 
-void extractor(const std::vector<TokenEntity>& source,ARCDOC::Namespace& ns,std::set<ARCDOC::Member*>& nm,const std::string& filename)
+void extractor(const std::vector<TokenEntity>& source,ARCDOC::Namespace& ns,std::set<ARCDOC::Member*>& nm,std::map<std::string,ARCDOC::Member*>& sm,const std::string& filename)
 {
     //NULLSCR::printTokens(source,std::cerr,true);
-    recursiveNamespaceSearch(source,ns,nm,filename);
+    recursiveNamespaceSearch(source,ns,nm,sm,filename);
 }
 
 class CppModule: public ARCDOC::Module
@@ -923,7 +915,7 @@ private:
 protected:
     virtual void extractSymbols(const std::vector<NULLSCR::TokenEntity>& tokens) override
     {
-        extractor(tokens,globalNamespace,newMembers,currentFile);
+        extractor(tokens,globalNamespace,newMembers,members,currentFile);
     }
     virtual void initTokenizer() override
     {
