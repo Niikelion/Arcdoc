@@ -17,9 +17,10 @@ namespace ARCDOC
     protected:
         template<typename T>void registerAction(const std::string& actionName,bool (T::*method)(const std::vector<std::string>&))
         {
-            actions.emplace(actionName,[this,method](const std::vector<std::string>& args)
+            T* that = static_cast<T*>(this);
+            actions.emplace(actionName,[that,method](const std::vector<std::string>& args)
             {
-                return (reinterpret_cast<T*>(this)->*method)(args);
+                return (that->*method)(args);
             });
         }
     public:

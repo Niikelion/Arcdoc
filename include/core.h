@@ -3,6 +3,7 @@
 
 #include <action.h>
 #include <inter.h>
+#include <colors.h>
 
 class Core: public ARCDOC::ActionProvider
 {
@@ -37,10 +38,8 @@ public:
         registerAction("parse",parseCmd);
         registerAction("generate",generateCmd);
         registerAction("selfcheck",selfcheckCmd);
-        /*
-        @ps
-        @og
-        */
+        registerAction("@l",parserCmd);
+        registerAction("@of",generatorCmd);
     }
 
     bool installCmd(const std::vector<std::string>& args);
@@ -50,6 +49,8 @@ public:
     bool parseCmd(const std::vector<std::string>& args);
     bool generateCmd(const std::vector<std::string>& args);
     bool selfcheckCmd(const std::vector<std::string>& args);
+    bool parserCmd(const std::vector<std::string>& args);
+    bool generatorCmd(const std::vector<std::string>& args);
 };
 
 #endif // CORE_H

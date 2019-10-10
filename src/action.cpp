@@ -65,7 +65,10 @@ namespace ARCDOC
             auto it = actions.find(ap.cmd);
             if (it != actions.end())
             {
-                it -> second(ap.args);
+                if (!it -> second(ap.args))
+                {
+                    throw std::logic_error("Action failed.");
+                }
             }
             if (pName.size() != 0)
             {

@@ -8,7 +8,7 @@ class DebugGenerator: public ARCDOC::OutputGenerator
 public:
     virtual void generateOutput(const std::string& path,const std::string& name,const ParseLib::JSON::Value& config) override
     {
-        std::ofstream out(path+"/"+name+".txt");
+        std::ofstream out(path+"/"+name+".xml");
         if (out.is_open())
         {
             if (getModule() != nullptr)

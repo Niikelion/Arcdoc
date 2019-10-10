@@ -8,6 +8,7 @@
 #include <functional>
 
 #include <core.h>
+#include <conio.h>
 
 using namespace std;
 
@@ -81,8 +82,19 @@ int main(int argc,const char* argv[])
         {
             ARCDOC::ActionHandler cmdHandler(cout,*input,interactive?"Arcdoc>":"");
             cmdHandler.attachProvider(&core);
-
-            cmdHandler.loop();
+            bool exit=false;
+            while (!exit)
+            {
+                try
+                {
+                    cmdHandler.loop();
+                    exit = true;
+                }
+                catch (logic_error e)
+                {
+                    cout << CmdColors::red << e.what() << CmdColors::none << endl;
+                }
+            }
         }
         if (inputfile.is_open())
             inputfile.close();

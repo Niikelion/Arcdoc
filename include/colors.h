@@ -26,7 +26,7 @@ namespace CmdColors
     };
     namespace _details
     {
-        void setColor(Colors color)
+        inline void setColor(Colors color)
         {
         #ifdef CMD_COLOR_OS_WINDOWS
             thread_local int defColor = -1;

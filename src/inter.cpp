@@ -10,14 +10,14 @@ using namespace std;
 Namespace& Parser::getGlobalNamespace()
 {
     if (module == nullptr)
-        throw std::logic_error("no module attached");
+        throw std::logic_error("No module attached");
     return module->globalNamespace;
 }
 
 const Namespace& Parser::getGlobalNamespace() const
 {
     if (module == nullptr)
-        throw std::logic_error("no module attached");
+        throw std::logic_error("No module attached");
     return module->globalNamespace;
 }
 

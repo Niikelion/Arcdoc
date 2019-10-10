@@ -248,7 +248,7 @@
 1568564722 source:g:\c++\projects\arcdoc\src\generator.cpp
 	"generator.h"
 
-1569248191 source:d:\projects\arcdoc\main.cpp
+1570746559 source:d:\projects\arcdoc\main.cpp
 	<iostream>
 	<fstream>
 	<vector>
@@ -258,6 +258,7 @@
 	<algorithm>
 	<functional>
 	<core.h>
+	<conio.h>
 
 1569610199 d:\projects\arcdoc\include\inter.h
 	<nullscript/nullscript.h>
@@ -269,7 +270,7 @@
 	<memory>
 	<string>
 
-1570568889 d:\projects\arcdoc\include\tokens.h
+1570710497 d:\projects\arcdoc\include\tokens.h
 	<nullscript/tokens.h>
 	<string>
 	<set>
@@ -297,27 +298,27 @@
 1569110579 source:d:\projects\arcdoc\src\module.cpp
 	"module.h"
 
-1570567929 source:d:\projects\arcdoc\src\inter.cpp
+1570745570 source:d:\projects\arcdoc\src\inter.cpp
 	"inter.h"
 	<fstream>
 	<iostream>
 
-1569610199 d:\projects\arcdoc\include\core.h
+1570745767 d:\projects\arcdoc\include\core.h
 	<action.h>
 	<inter.h>
+	<colors.h>
 
-1569248191 d:\projects\arcdoc\include\action.h
+1570745710 d:\projects\arcdoc\include\action.h
 	<map>
 	<vector>
 	<string>
 	<iostream>
 	<functional>
 
-1570484077 source:d:\projects\arcdoc\src\core.cpp
+1570745767 source:d:\projects\arcdoc\src\core.cpp
 	"core.h"
-	<colors.h>
 
-1569248191 source:d:\projects\arcdoc\src\action.cpp
+1570745741 source:d:\projects\arcdoc\src\action.cpp
 	"action.h"
 
 1569249964 source:d:\projects\arcdoc\src\log.cpp
@@ -328,7 +329,7 @@
 	<string>
 	<exception>
 
-1569323382 d:\projects\arcdoc\include\colors.h
+1570745803 d:\projects\arcdoc\include\colors.h
 	<iostream>
 	<windows.h>
 

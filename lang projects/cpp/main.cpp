@@ -1,6 +1,7 @@
 #include <nullscript/nullscript.h>
 #include <nullscript/rules.h>
 #include <module.h>
+#include <colors.h>
 
 using namespace NULLSCR;
 
@@ -782,16 +783,21 @@ void recursiveClassExtract(const std::vector<TokenEntity>& source, ARCDOC::Struc
     }
 }
 
-std::vector<std::unique_ptr<ARCDOC::Member>>::iterator findToMerge(ARCDOC::Member* t,ARCDOC::Namespace& target)
+ARCDOC::Member* findToMerge(ARCDOC::Member* t,ARCDOC::Namespace& target)
 {
     for (auto i=target.members.begin(); i != target.members.end(); ++i)
     {
         if (i->get()->isSame(*t))
         {
-            return i;
+            return i->get();
         }
     }
-    return target.members.end();
+    return nullptr;
+}
+
+ARCDOC::Member* findToMerge(ARCDOC::Member* t,ARCDOC::Structure& target)
+{
+    return nullptr;
 }
 
 void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Namespace& target,std::set<ARCDOC::Member*>& nm,std::map<std::string,ARCDOC::Member*>& sm,const std::string& filename)
@@ -803,8 +809,10 @@ void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Na
             NamespaceToken& nt = i.token -> forceAs<NamespaceToken>();
             ARCDOC::Namespace* n = createNamespaceFt(nt,filename);
 
+            n->parent = &target;
+
             auto it = findToMerge(n,target);
-            if (it == target.members.end())
+            if (it == nullptr)
             {
                 target.members.emplace_back(n);
                 nm.insert(n);
@@ -813,10 +821,10 @@ void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Na
             }
             else
             {
-                it->get()->mergeWith(std::move(*n));
-                recursiveNamespaceSearch(nt.tokens,*reinterpret_cast<ARCDOC::Namespace*>(it->get()),nm,sm,filename);
-                nm.insert(it->get());
-                sm.emplace("namespace",it->get());
+                it->mergeWith(std::move(*n));
+                recursiveNamespaceSearch(nt.tokens,*reinterpret_cast<ARCDOC::Namespace*>(it),nm,sm,filename);
+                nm.insert(it);
+                sm.emplace("namespace",it);
 
                 delete n;
             }
@@ -826,9 +834,11 @@ void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Na
             ClassToken& ct = i.token -> forceAs<ClassToken>();
             ARCDOC::Structure* n = createStructureFt(ct,filename);
 
+            n->parent = &target;
+
             auto it = findToMerge(n,target);
 
-            if (it == target.members.end())
+            if (it == nullptr)
             {
                 target.members.emplace_back(n);
                 nm.insert(n);
@@ -837,10 +847,10 @@ void recursiveNamespaceSearch(const std::vector<TokenEntity>& source, ARCDOC::Na
             }
             else
             {
-                it->get()->mergeWith(std::move(*n));
-                recursiveClassExtract(ct.tokens,*reinterpret_cast<ARCDOC::Structure*>(it->get()),ct.level,filename);
-                nm.insert(it->get());
-                sm.emplace("class",it->get());
+                it->mergeWith(std::move(*n));
+                recursiveClassExtract(ct.tokens,*reinterpret_cast<ARCDOC::Structure*>(it),ct.level,filename);
+                nm.insert(it);
+                sm.emplace("class",it);
 
                 delete n;
             }
@@ -887,9 +897,22 @@ class CppModule: public ARCDOC::Module
 private:
     void recursiveTreeExport(const ARCDOC::Member& m,ParseLib::XML::Tag* ret)
     {
+        ParseLib::XML::Tag* parents = new ParseLib::XML::Tag();
+        ret->children.emplace_back(parents);
+        parents->name = "parents";
+        ARCDOC::Member* parent = m.parent;
+        while (parent != nullptr && parent -> parent != nullptr)
+        {
+            ParseLib::XML::Tag* tmp_p = new ParseLib::XML::Tag();
+            tmp_p->name = "name";
+            tmp_p->children.emplace_back(new ParseLib::XML::TextNode(parent->name));
+            parents->children.emplace(parents->children.begin(),tmp_p);
+            parent = parent -> parent;
+        }
         if (m.getType() == typeid(ARCDOC::Namespace))
         {
             ret->attributes.emplace("type",ParseLib::XML::Value("namespace"));
+
             ParseLib::XML::Tag* tmp = new ParseLib::XML::Tag();
             ret->children.emplace_back(tmp);
 
@@ -922,14 +945,12 @@ protected:
         tokenizerSetup(tokenizer);
     }
 public:
+    ARCDOC::Member* selectedSymbol;
 
     virtual std::set<std::string> getAvailableItems() override
     {
         return std::set<std::string>({
-            "member_tree"//,
-            //"namespaces",
-            //"classes",
-            //"functions"
+            "member_tree"
         });
     }
     virtual std::shared_ptr<ParseLib::XML::Tag> getItem(const std::string& name) override
@@ -941,19 +962,71 @@ public:
         {
             recursiveTreeExport(globalNamespace,tag);
         }
-        else if (name == "namespaces")
-        {
-            //
-        }
-        else if (name == "classes")
-        {
-            //
-        }
-        else if (name == "functions")
-        {
-            //
-        }
         return std::move(ret);
+    }
+
+    CppModule(): selectedSymbol(nullptr)
+    {
+        registerAction("select",selectElementCmd);
+        registerAction("visit",visitElementCmd);
+    }
+    ARCDOC::Member* step(ARCDOC::Member* target,const std::string& name)
+    {
+        if (target != nullptr && target->getType() == typeid(ARCDOC::Namespace))
+        {
+            ARCDOC::Namespace* ns = reinterpret_cast<ARCDOC::Namespace*>(target);
+            for (const auto& i: ns->members)
+            {
+                if (i->name == name)
+                {
+                    return i.get();
+                }
+            }
+        }
+        return nullptr;
+    }
+    bool selectElementCmd(const std::vector<std::string>& args)//TODO: handle last element, error messages
+    {
+        if (args.size() != 1)
+        {
+            std::cout << CmdColors::yellow << "expected one argument\n" << CmdColors::none;
+            return false;
+        }
+        std::string p = args.front();
+        ARCDOC::Member* c = &globalNamespace;
+        unsigned pos = 0,pos2 = 0;
+        pos = p.find(".",0);
+        while (pos != std::string::npos)
+        {
+            if (pos != pos2)
+            {
+                c = step(c,p.substr(pos2,pos - pos2));
+                if (c == nullptr)
+                    return false;
+            }
+            pos2 = pos+1;
+            pos = p.find(".",pos+1);
+        }
+        if (pos2 != p.size())
+        {
+            c = step(c,p.substr(pos2,p.size() - pos2));
+            if (c == nullptr)
+                return false;
+        }
+        if (c == nullptr)
+        {
+            std::cout << CmdColors::yellow << "element not found\n" << CmdColors::none;
+            return false;
+        }
+        selectedSymbol = c;
+        return true;
+    }
+    bool visitElementCmd(const std::vector<std::string>& args)
+    {
+        if (selectedSymbol == nullptr)
+            return false;
+        newMembers.erase(selectedSymbol);
+        return true;
     }
 };
 

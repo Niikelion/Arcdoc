@@ -10,6 +10,48 @@
 
 namespace ARCDOC
 {
+    class Property
+    {
+    public:
+        std::map<std::string,Property> properties;
+        std::string value;
+
+        Property* find(const std::string& p)//TODO: handle last element
+        {
+            Property* c = this;
+            unsigned pos = 0,pos2 = 0;
+            pos = p.find(".",0);
+            while (pos != std::string::npos)
+            {
+                if (pos != pos2)
+                {
+                    auto it = c->properties.find(p.substr(pos2,pos - pos2));
+                    if (it == c->properties.end())
+                    {
+                        return nullptr;
+                    }
+                    c = &it->second;
+                }
+                pos2 = pos+1;
+                pos = p.find(".",pos+1);
+            }
+            if (pos2 != p.size()-1)
+            {
+                auto it = c->properties.find(p.substr(pos2,p.size() - pos2));
+                if (it == c->properties.end())
+                {
+                    return nullptr;
+                }
+                c = &it->second;
+            }
+            return c;
+        }
+
+        Property() = default;
+        Property(const Property&) = default;
+        Property(Property&&) noexcept = default;
+    };
+
     class VariableToken: public NULLSCR::TokenBase<VariableToken>
     {
     public:
@@ -72,6 +114,8 @@ namespace ARCDOC
         std::string name,description,path;
         std::set<MemberOrigin> origins;
         Member* parent;
+
+        Property properties;
 
         virtual std::type_index getType() const = 0;
         virtual bool isSame(const Member& t) const

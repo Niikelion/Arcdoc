@@ -1,9 +1,23 @@
-member_tree:
+<!--member_tree-->
 <container type = "namespace">
+	<parents>
+	<parents/>
 	<list>
 		<item name = "TEST" type = "namespace">
+			<parents>
+			<parents/>
 			<list>
 				<item name = "A" type = "structure">
+					<parents>
+						< name = "TEST">
+						</>
+					<parents/>
+				<item/>
+				<item name = "B" type = "structure">
+					<parents>
+						< name = "TEST">
+						</>
+					<parents/>
 				<item/>
 			<list/>
 		<item/>
