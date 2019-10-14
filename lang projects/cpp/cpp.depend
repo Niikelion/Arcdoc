@@ -20,10 +20,11 @@
 	<memory>
 	<map>
 
-1570741795 source:d:\projects\arcdoc\lang projects\cpp\main.cpp
+1570795238 source:d:\projects\arcdoc\lang projects\cpp\main.cpp
 	<nullscript/nullscript.h>
 	<nullscript/rules.h>
 	<module.h>
+	<console.h>
 	<colors.h>
 
 1570567929 d:\projects\arcdoc\include\module.h
@@ -44,14 +45,19 @@
 	<memory>
 	<map>
 
-1570739953 d:\projects\arcdoc\include\action.h
+1570745710 d:\projects\arcdoc\include\action.h
 	<map>
 	<vector>
 	<string>
 	<iostream>
 	<functional>
 
-1570570407 d:\projects\arcdoc\include\colors.h
+1570745803 d:\projects\arcdoc\include\colors.h
 	<iostream>
 	<windows.h>
+
+1570794640 d:\projects\arcdoc\include\console.h
+	<map>
+	<string>
+	<vector>
 

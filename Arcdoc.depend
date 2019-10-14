@@ -248,7 +248,7 @@
 1568564722 source:g:\c++\projects\arcdoc\src\generator.cpp
 	"generator.h"
 
-1570746559 source:d:\projects\arcdoc\main.cpp
+1570794703 source:d:\projects\arcdoc\main.cpp
 	<iostream>
 	<fstream>
 	<vector>
@@ -259,8 +259,9 @@
 	<functional>
 	<core.h>
 	<conio.h>
+	<console.h>
 
-1569610199 d:\projects\arcdoc\include\inter.h
+1570794671 d:\projects\arcdoc\include\inter.h
 	<nullscript/nullscript.h>
 	<tokens.h>
 	<nlib/slib/slib.h>
@@ -298,7 +299,7 @@
 1569110579 source:d:\projects\arcdoc\src\module.cpp
 	"module.h"
 
-1570745570 source:d:\projects\arcdoc\src\inter.cpp
+1570794662 source:d:\projects\arcdoc\src\inter.cpp
 	"inter.h"
 	<fstream>
 	<iostream>
@@ -315,10 +316,11 @@
 	<iostream>
 	<functional>
 
-1570745767 source:d:\projects\arcdoc\src\core.cpp
+1570794693 source:d:\projects\arcdoc\src\core.cpp
 	"core.h"
+	<console.h>
 
-1570745741 source:d:\projects\arcdoc\src\action.cpp
+1570795931 source:d:\projects\arcdoc\src\action.cpp
 	"action.h"
 
 1569249964 source:d:\projects\arcdoc\src\log.cpp
@@ -332,4 +334,12 @@
 1570745803 d:\projects\arcdoc\include\colors.h
 	<iostream>
 	<windows.h>
+
+1570794670 source:d:\projects\arcdoc\src\console.cpp
+	"console.h"
+
+1570794640 d:\projects\arcdoc\include\console.h
+	<map>
+	<string>
+	<vector>
 

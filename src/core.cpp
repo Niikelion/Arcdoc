@@ -1,4 +1,5 @@
 #include "core.h"
+#include <console.h>
 
 using namespace std;
 

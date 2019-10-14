@@ -9,6 +9,7 @@
 
 #include <core.h>
 #include <conio.h>
+#include <console.h>
 
 using namespace std;
 
@@ -53,14 +54,14 @@ int main(int argc,const char* argv[])
         {
             if (!core.activateGenerator(ch.getFlag("of").front()))
             {
-                throw logic_error("invalid format");
+                throw logic_error("Invalid format.");
             }
         }
         if (ch.hasFlag("l"))
         {
             if (!core.activateParser(ch.getFlag("l").front()))
             {
-                throw logic_error("invalid module");
+                throw logic_error("Invalid module.");
             }
         }
 
@@ -90,7 +91,7 @@ int main(int argc,const char* argv[])
                     cmdHandler.loop();
                     exit = true;
                 }
-                catch (logic_error e)
+                catch (logic_error& e)
                 {
                     cout << CmdColors::red << e.what() << CmdColors::none << endl;
                 }

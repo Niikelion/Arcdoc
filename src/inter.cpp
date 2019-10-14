@@ -10,14 +10,14 @@ using namespace std;
 Namespace& Parser::getGlobalNamespace()
 {
     if (module == nullptr)
-        throw std::logic_error("No module attached");
+        throw std::logic_error("No module attached.");
     return module->globalNamespace;
 }
 
 const Namespace& Parser::getGlobalNamespace() const
 {
     if (module == nullptr)
-        throw std::logic_error("No module attached");
+        throw std::logic_error("No module attached.");
     return module->globalNamespace;
 }
 
@@ -49,9 +49,7 @@ bool Parser::parseString(const string& source)
     {
         try
         {
-            //module->globalNamespace.members.clear();
             module->parseString(source);
-            //std::cout << module->getItem("member_tree")->toString() << std::endl;
         }
         catch(std::exception e)
         {
@@ -145,155 +143,4 @@ Generator::~Generator()
         deleter(generator);
     }
     sl.free();
-}
-
-
-ConsoleHandler::ConsoleHandler(unsigned argc,const char* argv[],const std::map<std::string,int>& fd)
-{
-    flagsD = fd;
-    std::string tmp;
-
-    for (unsigned i = 0; i < argc; ++i)
-    {
-        tmp = argv[i];
-        if (argv[i][0] == '-')
-        {
-            tmp.erase(0,1);
-            auto it = flagsD.find(tmp);
-            if (it != flagsD.end()) //found flag
-            {
-                if (it->second == -1) //capture all inputs till next flag
-                {
-                    auto fg = flags.find(tmp);
-                    if (fg == flags.end())
-                        fg = flags.emplace(tmp,std::vector<std::string>()).first;
-                    for (unsigned j = i+1; j<argc; ++j)
-                    {
-                        if (argv[j][0] == '-')
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            fg -> second.emplace_back(argv[j]);
-                        }
-                        i = j;
-                    }
-                }
-                else //capture specific amount
-                {
-                    std::vector<std::string> tmpv;
-                    if (i + it->second < argc)
-                    {
-                        bool err = false;
-                        for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
-                        {
-                            if (argv[i+j][0] == '-')
-                            {
-                                err = true;
-                            }
-                        }
-                        if (!err) //emplace inputs and push flag
-                        {
-                            auto fg = flags.find(tmp);
-                            if (fg == flags.end())
-                                fg = flags.emplace(tmp,std::vector<std::string>()).first;
-                            for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
-                            {
-                                fg -> second.emplace_back(argv[i+j]);
-                            }
-                            i += it -> second;
-                        }
-                    }
-                }
-
-            }
-        }
-        else
-        {
-            values.emplace_back(tmp);
-        }
-    }
-}
-
-ConsoleHandler::ConsoleHandler(const std::vector<std::string>& args,const std::map<std::string,int>& fd)
-{
-    flagsD = fd;
-    std::string tmp;
-
-    for (unsigned i = 0; i < args.size(); ++i)
-    {
-        tmp = args[i];
-        if (args[i][0] == '-')
-        {
-            tmp.erase(0,1);
-            auto it = flagsD.find(tmp);
-            if (it != flagsD.end()) //found flag
-            {
-                if (it->second == -1) //capture all inputs till next flag
-                {
-                    auto fg = flags.find(tmp);
-                    if (fg == flags.end())
-                        fg = flags.emplace(tmp,std::vector<std::string>()).first;
-                    for (unsigned j = i+1; j<args.size(); ++j)
-                    {
-                        if (args[j][0] == '-')
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            fg -> second.emplace_back(args[j]);
-                        }
-                        i = j;
-                    }
-                }
-                else //capture specific amount
-                {
-                    std::vector<std::string> tmpv;
-                    if (i + it->second < args.size())
-                    {
-                        bool err = false;
-                        for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
-                        {
-                            if (args[i+j][0] == '-')
-                            {
-                                err = true;
-                            }
-                        }
-                        if (!err) //emplace inputs and push flag
-                        {
-                            auto fg = flags.find(tmp);
-                            if (fg == flags.end())
-                                fg = flags.emplace(tmp,std::vector<std::string>()).first;
-                            for (unsigned j = 1; j <= static_cast<unsigned>(it -> second); ++j)
-                            {
-                                fg -> second.emplace_back(args[i+j]);
-                            }
-                            i += it -> second;
-                        }
-                    }
-                }
-
-            }
-        }
-        else
-        {
-            values.emplace_back(tmp);
-        }
-    }
-}
-
-bool ConsoleHandler::hasFlag(const std::string& flag) const
-{
-    auto it = flags.find(flag);
-    return it != flags.end();
-}
-
-std::vector<std::string> ConsoleHandler::getFlag(std::string const& flag) const
-{
-    auto it = flags.find(flag);
-    if (it != flags.end())
-        return it -> second;
-    return std::vector<std::string>();
 }

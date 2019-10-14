@@ -18,7 +18,9 @@
 					<Add option="-DBUILD_DLL" />
 				</Compiler>
 				<Linker>
+					<Add library="GenBase" />
 					<Add library="Nullscript-d" />
+					<Add library="xml-d" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -33,6 +35,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="GenBase" />
 					<Add library="Nullscript" />
 					<Add library="xml" />
 				</Linker>
@@ -47,6 +50,7 @@
 		</Compiler>
 		<Linker>
 			<Add option="--static" />
+			<Add directory="../../bin" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>

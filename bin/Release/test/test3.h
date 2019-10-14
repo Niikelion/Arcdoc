@@ -13,6 +13,12 @@ namespace TEST
 {
     class B
     {
+    private:
+        struct C
+        {
+        protected:
+            double v;
+        };
     public:
         int pos;
     };

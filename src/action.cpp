@@ -70,6 +70,10 @@ namespace ARCDOC
                     throw std::logic_error("Action failed.");
                 }
             }
+            else
+            {
+                throw std::logic_error("Unknown action.");
+            }
             if (pName.size() != 0)
             {
                 (*output) << pName << " ";

@@ -67,17 +67,4 @@ public:
     ~Generator();
 };
 
-class ConsoleHandler
-{
-    std::map<std::string,int> flagsD;
-public:
-    std::map<std::string,std::vector<std::string> >flags;
-    std::vector<std::string> values;
-    ConsoleHandler(unsigned argc,const char* argv[],const std::map<std::string,int>& fd);
-    ConsoleHandler(const std::vector<std::string>& args,const std::map<std::string,int>& fd);
-
-    bool hasFlag(const std::string& flag) const;
-    std::vector<std::string> getFlag(std::string const& flag) const;
-};
-
 #endif // INTER_H
