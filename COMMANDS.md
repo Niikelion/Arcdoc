@@ -23,4 +23,4 @@ To see commands in certain branch, view core.h file from that branch.
 | generate  | Takes path as an argument and generates output file or files using currently activate format module. `-n name` changes name of output, but keep in mind that it is handled by the format module. |
 | selfcheck | Performs checks to ensure that the application runs correctly. |
 | @l        | Calls action from language module.    |
-| @of       | Calls action from format module.      |
+| @of       | Calls action from format module.      | 
