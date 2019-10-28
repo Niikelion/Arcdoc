@@ -1,5 +1,7 @@
 # Arcdoc
 Creates code documentation.
+## Dependencies
+Compiling Arcdoc requires [Nullscript](https://github.com/Niikelion/Nullscript) and Nlib libraries.
 ## Setup
 To add a new parsing module copy module files to __langs__ folder and add name of module in __langs.txt__ file in main folder.
 To add a new format module do the same, but with __formats__ folder and __formats.txt__ file.
